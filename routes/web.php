@@ -23,6 +23,10 @@ Route::middleware('auth')->group(function () {
         return view('loyalty-scheme');
     })->name('loyalty-scheme');
 
+    Route::get('/booking-confirmation', function () {
+        return view('booking-confirmation');
+    })->name('booking-confirmation');
+
     Route::get('/book', function () {
         return view('book');
     })->name('book');

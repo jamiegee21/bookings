@@ -106,7 +106,7 @@ new class extends Component
         $this->selectedSlot = $time;
     }
 
-    public function confirmBooking(): void
+    public function confirmBooking()
     {
         $service = Service::find($this->serviceId);
         $barber = User::find($this->userId);
@@ -126,7 +126,7 @@ new class extends Component
         ]);
 
         session()->flash('booking.confirmed', true);
-        $this->reset(['serviceId', 'userId', 'selectedDate', 'selectedSlot']);
+        return $this->redirect(route('booking-confirmation'), navigate: true);
     }
 
     public function backToServices(): void
