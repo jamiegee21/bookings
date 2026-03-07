@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: 'Lato', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Force light mode for Flux UI components */
+/*[data-flux-button] {*/
+/*    background-color: white !important;*/
+/*    color: rgb(39 39 42) !important;*/
+/*    border-color: rgb(228 228 231) !important;*/
+/*}*/
+
+/*[data-flux-button]:hover {*/
+/*    background-color: rgb(250 250 250) !important;*/
+/*    border-color: rgb(228 228 231) !important;*/
+/*}*/
