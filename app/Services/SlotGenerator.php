@@ -54,7 +54,7 @@ class SlotGenerator
             $slotStart->addMinutes(self::SLOT_INTERVAL_MINUTES);
         }
 
-        $bookedRanges = $user->bookings()
+        $bookedRanges = $user->teamMemberBookings()
             ->whereDate('starts_at', $date)
             ->get(['starts_at', 'ends_at']);
 

@@ -78,4 +78,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Booking::class);
     }
+
+    /**
+     * @return HasMany<Booking>
+     */
+    public function teamMemberBookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'team_member_id');
+    }
 }
