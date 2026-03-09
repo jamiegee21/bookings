@@ -55,30 +55,32 @@ new class extends Component
                                 </div>
                             </div>
 
-                            <div class="flex gap-3 mt-3">
-                                <flux:modal.trigger name="cancel-appointment-{{ $appointment->id }}">
-                                    <button class="block rounded-lg border text-sm border-gray-300 hover:border-red-500 text-center py-2 px-4 text-gray-500 cursor-pointer">
-                                        Cancel Appointment
-                                    </button>
-                                </flux:modal.trigger>
-                            </div>
-
-                            <flux:modal name="cancel-appointment-{{ $appointment->id }}">
-                                <div class="space-y-6">
-                                    <div>
-                                        <flux:heading size="lg">Cancel Appointment</flux:heading>
-                                        <flux:text class="mt-2">Are you sure you want to cancel this appointment? This action cannot be undone.</flux:text>
-                                    </div>
-                                    <div class="flex gap-3 justify-end">
-                                        <flux:modal.close>
-                                            <flux:button variant="ghost">No, keep it</flux:button>
-                                        </flux:modal.close>
-                                        <flux:modal.close>
-                                            <flux:button variant="danger" wire:click="cancelAppointment('{{ $appointment->id }}')">Yes, cancel it</flux:button>
-                                        </flux:modal.close>
-                                    </div>
+                            @if ($appointment->starts_at->diffInHours(now()) >= 48)
+                                <div class="flex gap-3 mt-3">
+                                    <flux:modal.trigger name="cancel-appointment-{{ $appointment->id }}">
+                                        <button class="block rounded-lg border text-sm border-gray-300 hover:border-red-500 text-center py-2 px-4 text-gray-500 cursor-pointer">
+                                            Cancel Appointment
+                                        </button>
+                                    </flux:modal.trigger>
                                 </div>
-                            </flux:modal>
+
+                                <flux:modal name="cancel-appointment-{{ $appointment->id }}">
+                                    <div class="space-y-6">
+                                        <div>
+                                            <flux:heading size="lg">Cancel Appointment</flux:heading>
+                                            <flux:text class="mt-2">Are you sure you want to cancel this appointment? This action cannot be undone.</flux:text>
+                                        </div>
+                                        <div class="flex gap-3 justify-end">
+                                            <flux:modal.close>
+                                                <flux:button variant="ghost">No, keep it</flux:button>
+                                            </flux:modal.close>
+                                            <flux:modal.close>
+                                                <flux:button variant="danger" wire:click="cancelAppointment('{{ $appointment->id }}')">Yes, cancel it</flux:button>
+                                            </flux:modal.close>
+                                        </div>
+                                    </div>
+                                </flux:modal>
+                            @endif
 
                         </div>
                     </div>
