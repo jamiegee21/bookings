@@ -55,7 +55,7 @@ new class extends Component
                                 </div>
                             </div>
 
-                            @if ($appointment->starts_at->diffInHours(now()) >= 48)
+                            @if ($appointment->starts_at->greaterThan(now()->addHours(48)))
                                 <div class="flex gap-3 mt-3">
                                     <flux:modal.trigger name="cancel-appointment-{{ $appointment->id }}">
                                         <button class="block rounded-lg border text-sm border-gray-300 hover:border-red-500 text-center py-2 px-4 text-gray-500 cursor-pointer">

@@ -1,10 +1,12 @@
 <?php
 
+use App\Mail\BookingConfirmation;
 use App\Models\Booking;
 use App\Models\Service;
 use App\Models\User;
 use App\Services\SlotGenerator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 new class extends Component
@@ -117,13 +119,17 @@ new class extends Component
         $startsAt = Carbon::parse($this->selectedDate.' '.$this->selectedSlot);
         $endsAt = $startsAt->copy()->addMinutes($service->duration_minutes);
 
-        Booking::create([
+        $booking = Booking::create([
             'user_id' => auth()->id(),
             'service_id' => $service->id,
             'team_member_id' => $this->userId,
             'starts_at' => $startsAt,
             'ends_at' => $endsAt,
         ]);
+
+        $booking->load(['user', 'service', 'teamMember']);
+
+        Mail::to($booking->user->email)->send(new BookingConfirmation($booking));
 
         session()->flash('booking.confirmed', true);
         return $this->redirect(route('booking-confirmation'), navigate: true);
@@ -191,7 +197,7 @@ new class extends Component
                         <div wire:click="selectTeamMember({{ $member->id }})" class="flex justify-between items-center p-4 rounded-xl border border-gray-300 bg-white cursor-pointer hover:border-rose-500">
                             <div class="flex flex-col space-y-1">
                                 <span class="text-xl font-bold"> {{ $member->name }}</span>
-                                <span>Head Barber</span>
+{{--                                <span>Head Barber</span>--}}
                             </div>
                         </div>
 
