@@ -12,6 +12,7 @@ new class extends Component
     public ?int $teamMemberId = null;
     public string $selectedDate;
     public array $timeSlots = [];
+    public bool $hasSchedule = false;
 
     public function mount(): void
     {
@@ -43,6 +44,7 @@ new class extends Component
     {
         if (!$this->teamMemberId) {
             $this->timeSlots = [];
+            $this->hasSchedule = false;
             return;
         }
 
@@ -57,8 +59,11 @@ new class extends Component
 
         if (!$schedule) {
             $this->timeSlots = [];
+            $this->hasSchedule = false;
             return;
         }
+
+        $this->hasSchedule = true;
 
         $start = $date->copy()->setTimeFromTimeString($schedule->start_time);
         $end = $date->copy()->setTimeFromTimeString($schedule->end_time);
@@ -206,7 +211,7 @@ new class extends Component
                 </button>
             </div>
 
-            @if($teamMemberId && count($timeSlots) > 0)
+            @if($teamMemberId && $hasSchedule)
                 <div class="mt-8">
                     <h2 class="text-lg font-semibold text-gray-900 mb-4">Schedule for {{ \Carbon\Carbon::parse($selectedDate)->format('D, F j, Y') }}</h2>
 
