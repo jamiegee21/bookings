@@ -1,5 +1,5 @@
 @extends('layouts.booking')
 
 @section('content')
-    @livewire('⚡today-view')
+    <livewire:today-view />
 @endsection

@@ -9,7 +9,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="bg-zinc-50 text-zinc-900 min-h-dvh antialiased flex py-20 justify-center">
+<body class="bg-zinc-50 text-zinc-900 min-h-dvh antialiased flex py-8 px-4 justify-center">
+
+<div class="w-full max-w-xl">
+
     <header class="mb-8 flex justify-between items-center">
         <a href="{{ route('dashboard') }}" class="inline-block">
             <img src="{{ asset('/images/logo.svg') }}" alt="" class="w-32">
@@ -24,9 +27,11 @@
 {{--                </div>--}}
 {{--            @endauth--}}
     </header>
-    <main class="w-full max-w-md">
+    <main class="w-full">
         @yield('content')
     </main>
+
+</div>
     <flux:toast />
     @livewireScripts
     @fluxScripts
