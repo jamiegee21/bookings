@@ -176,7 +176,7 @@ new class extends Component {
 
 <div>
     <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div class="grid grid-cols-2 gap-4 mb-6">
             <div>
                 <flux:field label="Team Member">
                     <flux:select wire:model.live="teamMemberId" placeholder="Select a team member">
