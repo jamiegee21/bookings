@@ -171,6 +171,42 @@ new class extends Component {
     {
         return $this->selectedDate === now()->format('Y-m-d');
     }
+
+    public function hasAvailableSlots(): bool
+    {
+        foreach ($this->timeSlots as $slot) {
+            if (!$slot['booking']) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function blockAllAvailableSlots(): void
+    {
+        $user = User::find($this->teamMemberId);
+        if (!$user) {
+            return;
+        }
+
+        foreach ($this->timeSlots as $slot) {
+            if (!$slot['booking']) {
+                $startsAt = Carbon::parse($slot['datetime']);
+                $endsAt = $startsAt->copy()->addMinutes(30);
+
+                Booking::create([
+                    'user_id' => auth()->id(),
+                    'service_id' => null,
+                    'team_member_id' => $this->teamMemberId,
+                    'starts_at' => $startsAt,
+                    'ends_at' => $endsAt,
+                    'status' => 'confirmed',
+                ]);
+            }
+        }
+
+        $this->loadSlots();
+    }
 };
 ?>
 
@@ -214,73 +250,102 @@ new class extends Component {
     </div>
 
         @if($teamMemberId && $hasSchedule)
-                <h2 class="text-lg font-semibold text-gray-900 mb-4">Schedule
-                    for {{ \Carbon\Carbon::parse($selectedDate)->format('D, F j, Y') }}</h2>
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Schedule
+                for {{ \Carbon\Carbon::parse($selectedDate)->format('D, F j, Y') }}</h2>
 
-                <div class="grid grid-cols-1 gap-6">
-                    @foreach($timeSlots as $slot)
-                        <div
-                            class="border rounded-lg p-4 {{ $slot['booking'] ? 'bg-blue-50 border-blue-200' : 'bg-white border-gray-200' }}">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-sm font-semibold text-gray-900">{{ $slot['time'] }}</span>
-                                @if($slot['booking'])
-                                    @if($slot['booking']['service_name'])
-                                        <span
-                                            class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
-                                                Booked
-                                            </span>
-                                    @else
-                                        <span
-                                            class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
-                                                Blocked
-                                            </span>
-                                    @endif
+            <div class="grid grid-cols-1 gap-6">
+                @foreach($timeSlots as $slot)
+                    <div
+                        class="border rounded-lg p-4 {{ $slot['booking'] ? 'bg-blue-50 border-blue-200' : 'bg-white border-gray-200' }}">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-semibold text-gray-900">{{ $slot['time'] }}</span>
+                            @if($slot['booking'])
+                                @if($slot['booking']['service_name'])
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                                            Booked
+                                        </span>
                                 @else
                                     <span
-                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
-                                            Available
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                                            Blocked
                                         </span>
                                 @endif
-                            </div>
-
-                            @if($slot['booking'])
-                                <div class="text-sm space-y-1">
-                                    @if($slot['booking']['service_name'])
-                                        <p class="font-medium text-gray-900">{{ $slot['booking']['customer_name'] }}</p>
-                                        <p class="text-gray-600">{{ $slot['booking']['service_name'] }}</p>
-                                        @if($slot['booking']['customer_phone'])
-                                            <p class="text-gray-500 text-xs">{{ $slot['booking']['customer_phone'] }}</p>
-                                        @endif
-                                    @else
-                                        <p class="text-gray-600 italic">Time blocked out</p>
-                                        <button
-                                            wire:click="unblockSlot({{ $slot['booking']['id'] }})"
-                                            class="mt-2 w-full text-sm px-2 py-1 bg-red-100 text-red-700 rounded cursor-pointer hover:bg-red-200 transition"
-                                        >
-                                            Unblock
-                                        </button>
-                                    @endif
-                                </div>
                             @else
-                                <button
-                                    wire:click="blockSlot('{{ $slot['datetime'] }}')"
-                                    class="mt-2 w-full text-sm px-3 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition font-medium cursor-pointer"
-                                >
-                                    Block Out
-                                </button>
+                                <span
+                                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                        Available
+                                    </span>
                             @endif
                         </div>
-                    @endforeach
+
+                        @if($slot['booking'])
+                            <div class="text-sm space-y-1">
+                                @if($slot['booking']['service_name'])
+                                    <p class="font-medium text-gray-900">{{ $slot['booking']['customer_name'] }}</p>
+                                    <p class="text-gray-600">{{ $slot['booking']['service_name'] }}</p>
+                                    @if($slot['booking']['customer_phone'])
+                                        <p class="text-gray-500 text-xs">{{ $slot['booking']['customer_phone'] }}</p>
+                                    @endif
+                                @else
+                                    <p class="text-gray-600 italic">Time blocked out</p>
+                                    <button
+                                        wire:click="unblockSlot({{ $slot['booking']['id'] }})"
+                                        class="mt-2 w-full text-sm px-2 py-1 bg-red-100 text-red-700 rounded cursor-pointer hover:bg-red-200 transition"
+                                    >
+                                        Unblock
+                                    </button>
+                                @endif
+                            </div>
+                        @else
+                            <button
+                                wire:click="blockSlot('{{ $slot['datetime'] }}')"
+                                class="mt-2 w-full text-sm px-3 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition font-medium cursor-pointer"
+                            >
+                                Block Out
+                            </button>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+
+            @if($this->hasAvailableSlots())
+                <div class="mt-6">
+                    <flux:modal.trigger name="block-all-confirmation">
+                        <flux:button variant="danger" class="w-full">
+                            Block Out All Available Slots
+                        </flux:button>
+                    </flux:modal.trigger>
+
+                    <flux:modal name="block-all-confirmation" class="space-y-6">
+                        <div>
+                            <flux:heading size="lg">Block Out All Available Slots?</flux:heading>
+                            <flux:subheading>This will block out all available time slots for this date. You can unblock them individually later if needed.</flux:subheading>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <flux:modal.close>
+                                <flux:button variant="ghost">Cancel</flux:button>
+                            </flux:modal.close>
+
+                            <flux:spacer />
+
+                            <flux:modal.close>
+                                <flux:button variant="danger" wire:click="blockAllAvailableSlots">Block All Slots</flux:button>
+                            </flux:modal.close>
+                        </div>
+                    </flux:modal>
                 </div>
-            </div>
-        @elseif($teamMemberId)
-            <div class="mt-8 text-center p-12 bg-gray-50 rounded-lg">
-                <p class="text-gray-500">No schedule found for this team member on the selected date.</p>
-            </div>
-        @else
-            <div class="mt-8 text-center py-12 bg-gray-50 rounded-lg">
-                <p class="text-gray-500">Please select a team member to view their schedule.</p>
-            </div>
-        @endif
-    </div>
-</div>
+            @endif
+    @elseif($teamMemberId)
+        <div class="mt-8 text-center p-12 bg-gray-50 rounded-lg">
+            <p class="text-gray-500">No schedule found for this team member on the selected date.</p>
+        </div>
+    @else
+        <div class="mt-8 text-center py-12 bg-gray-50 rounded-lg">
+            <p class="text-gray-500">Please select a team member to view their schedule.</p>
+        </div>
+    @endif
+
+
+
