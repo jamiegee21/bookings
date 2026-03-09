@@ -9,7 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="bg-zinc-50 text-zinc-900 min-h-dvh antialiased flex py-20 justify-center">
+<body class="bg-zinc-50 text-zinc-900 min-h-dvh antialiased flex py-20 px-4 justify-center">
 
     <main class="w-full max-w-md">
         <div class="flex justify-center mb-8">
