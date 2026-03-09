@@ -34,7 +34,7 @@ new class extends Component
     @if ($this->appointments->count() > 0)
         <div class="space-y-4">
             @foreach ($this->appointments as $appointment)
-                <div class="bg-white rounded-lg border border-gray-300 p-6">
+                <div wire:key="appointment-{{ $appointment->id }}" class="bg-white rounded-lg border border-gray-300 p-6">
                     <div class="flex justify-between items-start">
                         <div class="flex-1">
                             <div class="">

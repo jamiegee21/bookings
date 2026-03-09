@@ -7,9 +7,16 @@
 
         <!-- Full width booking button -->
         <div class="mb-8">
-            <a href="{{ route('book') }}" class="w-full block rounded-lg text-xl font-bold bg-red-500 hover:bg-red-600 text-center py-2 text-white">
-                Book Appointment
-            </a>
+            @if($confirmedBookingsCount >= 3)
+                <button disabled class="w-full block rounded-lg text-xl font-bold bg-gray-300 text-gray-500 text-center py-2 cursor-not-allowed">
+                    Book Appointment
+                </button>
+                <p class="text-sm text-red-600 mt-2 text-center">You have the maximum of 3 active bookings</p>
+            @else
+                <a href="{{ route('book') }}" class="w-full block rounded-lg text-xl font-bold bg-red-500 hover:bg-red-600 text-center py-2 text-white">
+                    Book Appointment
+                </a>
+            @endif
         </div>
 
         <!-- Dashboard grid -->

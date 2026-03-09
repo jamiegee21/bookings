@@ -4,7 +4,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
-        return view('dashboard');
+        $confirmedBookingsCount = \App\Models\Booking::where('user_id', auth()->id())
+            ->where('status', 'confirmed')
+            ->where('starts_at', '>=', now())
+            ->count();
+        
+        return view('dashboard', ['confirmedBookingsCount' => $confirmedBookingsCount]);
     })->name('dashboard');
 
     Route::get('/appointments', function () {
@@ -28,6 +33,15 @@ Route::middleware('auth')->group(function () {
     })->name('booking-confirmation');
 
     Route::get('/book', function () {
+        $confirmedBookingsCount = \App\Models\Booking::where('user_id', auth()->id())
+            ->where('status', 'confirmed')
+            ->where('starts_at', '>=', now())
+            ->count();
+        
+        if ($confirmedBookingsCount >= 3) {
+            return redirect()->route('dashboard')->with('error', 'You have reached the maximum of 3 active bookings.');
+        }
+        
         return view('book');
     })->name('book');
 });
