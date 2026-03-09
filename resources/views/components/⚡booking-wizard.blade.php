@@ -207,15 +207,16 @@ new class extends Component
             </div>
             <section>
                 <div class="font-black text-xl mb-8 text-center">Choose date and time</div>
-                <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
-                    @foreach ($this->getDateOptions() as $opt)
-                        <div
-                            wire:click="selectDate('{{ $opt['value'] }}')"
-                            class="whitespace-nowrap shrink-0 cursor-pointer flex text-sm justify-between items-center p-3 py-0 rounded border {{ $selectedDate === $opt['value'] ? 'border-rose-500 bg-rose-50' : 'border-gray-300 bg-white hover:border-rose-500' }}"
-                        >
-                            {{ $opt['label'] }}
-                        </div>
-                    @endforeach
+                <div class="relative">
+                    <div class="flex gap-2 mb-6 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth">
+                        @foreach ($this->getDateOptions() as $opt)
+                            <div
+                                wire:click="selectDate('{{ $opt['value'] }}')"
+                                class="whitespace-nowrap shrink-0 cursor-pointer flex text-sm justify-between items-center p-3 py-0 rounded border snap-start {{ $selectedDate === $opt['value'] ? 'border-rose-500 bg-rose-50' : 'border-gray-300 bg-white hover:border-rose-500' }}"
+                            >
+                                {{ $opt['label'] }}
+                            </div>
+                        @endforeach
                     <flux:date-picker
                         wire:model.live="selectedDate"
                         min="today"
