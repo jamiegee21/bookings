@@ -15,7 +15,7 @@
 
             <div class="text-2xl font-bold text-gray-900 mb-4">Coming Soon!</div>
             <div class="text-gray-600 mb-8 max-w-md mx-auto">
-                Our amazing loyalty scheme is currently in development. Get rewards and enjoy exclusive member benefits. Check back soon for updates!
+                Our loyalty scheme is currently in development. Get rewards and enjoy exclusive member benefits. Check back soon for updates!
             </div>
 
             <div class="mt-8">
