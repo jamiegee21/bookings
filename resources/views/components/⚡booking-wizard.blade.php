@@ -212,7 +212,7 @@ new class extends Component
                         @foreach ($this->getDateOptions() as $opt)
                             <div
                                 wire:click="selectDate('{{ $opt['value'] }}')"
-                                class="whitespace-nowrap shrink-0 cursor-pointer flex text-sm justify-between items-center p-3 py-0 rounded border snap-start {{ $selectedDate === $opt['value'] ? 'border-rose-500 bg-rose-50' : 'border-gray-300 bg-white hover:border-rose-500' }}"
+                                class="whitespace-nowrap shrink-0 cursor-pointer flex text-sm justify-between items-center p-5 py-0 rounded border snap-start {{ $selectedDate === $opt['value'] ? 'border-rose-500 bg-rose-50' : 'border-gray-300 bg-white hover:border-rose-500' }}"
                             >
                                 {{ $opt['label'] }}
                             </div>
