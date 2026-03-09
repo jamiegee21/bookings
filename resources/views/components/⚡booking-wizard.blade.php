@@ -270,7 +270,7 @@ new class extends Component
                 <div class="font-black text-xl mb-8 text-center">Booking summary</div>
 
                 <div class="p-4 rounded-xl border border-gray-300 bg-white mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-3">
                             <div>
                                 <div class="text-sm text-gray-500 mb-1">Service</div>
