@@ -31,7 +31,7 @@ new class extends Component
         ]);
 
         auth()->login($user);
-        $this->redirect(route('home'));
+        $this->redirect(route('dashboard'));
     }
 };
 ?>
@@ -114,9 +114,9 @@ new class extends Component
         </flux:field>
 
         <div>
-            <flux:button type="submit" variant="primary" color="rose" class="w-full">
-                Create account
-            </flux:button>
+            <button type="submit" class="transition-colors duration-200 cursor-pointer w-full block rounded-lg bg-red-500 hover:bg-red-600 text-center py-2 text-white">
+                Register
+            </button>
         </div>
 
         <div class="text-center">

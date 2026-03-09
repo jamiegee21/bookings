@@ -9,7 +9,26 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+    --color-accent: var(--color-red-500);
+    --color-accent-foreground: white;
+}
+
 @theme {
+
+    --color-red: oklch(57.721% 0.2283 27.451);
+    --color-red-50: oklch(83.394% 0.07947 15.981);
+    --color-red-100: oklch(79.698% 0.10131 17.279);
+    --color-red-200: oklch(72.28% 0.14607 18.783);
+    --color-red-300: oklch(66.218% 0.18814 21.638);
+    --color-red-400: oklch(61.647% 0.22173 25.167);
+    --color-red-500: oklch(57.721% 0.2283 27.451);
+    --color-red-600: oklch(47.547% 0.18649 27.028);
+    --color-red-700: oklch(37.065% 0.1425 26.726);
+    --color-red-800: oklch(25.541% 0.09375 24.818);
+    --color-red-900: oklch(12.764% 0.03832 24.35);
+    --color-red-950: oklch(0% 0 none);
+
     --font-sans: 'Lato', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }

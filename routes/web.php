@@ -32,6 +32,12 @@ Route::middleware('auth')->group(function () {
     })->name('book');
 });
 
+Route::middleware(['auth', 'can.access.today.view'])->group(function () {
+    Route::get('/today-view', function () {
+        return view('today-view');
+    })->name('today-view');
+});
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', function () {
         return view('auth.login');
@@ -42,7 +48,7 @@ Route::middleware('guest')->group(function () {
     })->name('register');
 });
 
-Route::post('/logout', function () {
+Route::get('/logout', function () {
     auth()->logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();

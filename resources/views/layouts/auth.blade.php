@@ -9,16 +9,18 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="bg-zinc-50 text-zinc-900 h-dvh antialiased">
-    <div class="max-w-2xl mx-auto px-4 py-8">
-        <main>
-            <div class="flex justify-center mb-8">
-                <img src="{{ asset('/images/logo.svg') }}" alt="" class="max-w-48">
-            </div>
+<body class="bg-zinc-50 text-zinc-900 min-h-dvh antialiased flex py-20 justify-center">
 
+    <main class="w-full max-w-md">
+        <div class="flex justify-center mb-8">
+            <img src="{{ asset('/images/logo.svg') }}" alt="" class="max-w-48">
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 p-10">
             @yield('content')
-        </main>
-    </div>
+        </div>
+    </main>
+
     @livewireScripts
     @fluxScripts
 </body>

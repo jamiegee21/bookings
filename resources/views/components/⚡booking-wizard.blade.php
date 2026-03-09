@@ -203,7 +203,7 @@ new class extends Component
 
         @case(3)
             <div class="mb-4">
-                <flux:button type="button" wire:click="backToTeamMembers" variant="ghost" size="sm">← Back</flux:button>
+                <flux:button type="button" wire:click="backToTeamMembers" size="sm">← Back</flux:button>
             </div>
             <section>
                 <div class="font-black text-xl mb-8 text-center">Choose date and time</div>
@@ -219,6 +219,7 @@ new class extends Component
                     <flux:date-picker
                         wire:model.live="selectedDate"
                         min="today"
+                        max="{{ now()->addDays(30)->format('Y-m-d') }}"
                         with-today
                         selectable-header
                         placeholder="Other date"
@@ -236,8 +237,13 @@ new class extends Component
                         <div class="font-black text-xl mb-8 text-center">Available times</div>
                         @php $slots = $this->getAvailableTimeSlots(); @endphp
                         @if (count($slots) === 0)
-                            <flux:callout variant="warning" heading="No appointments available" text="There are no available time slots on this date. Please try selecting a different date." class="mb-4" />
-                            <flux:text variant="subtle">Try selecting another date from the options above.</flux:text>
+                            <div class="flex flex-col items-center gap-2 p-10 rounded-xl border border-gray-300 bg-white">
+                                <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                <div class="text-xl font-bold mb-1">No slots available</div>
+                                <div class="text-gray-600 text-sm">There are no available time slots on this date. Please try selecting a different date.</div>
+                            </div>
                         @else
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                                 @foreach ($slots as $time)
@@ -257,36 +263,58 @@ new class extends Component
 
         @case(4)
             <div class="mb-4">
-                <flux:button type="button" wire:click="backToTeamMembers" variant="ghost" size="sm">← Back</flux:button>
+                <flux:button type="button" wire:click="backToSlots" size="sm">← Back</flux:button>
             </div>
             <section>
-                <flux:heading size="lg" class="mb-3">Confirm your booking</flux:heading>
+                <div class="font-black text-xl mb-8 text-center">Booking summary</div>
 
-                <flux:callout class="mb-6" heading="Booking summary">
-                    <dl class="grid grid-cols-1 gap-x-4 gap-y-2 text-sm sm:grid-cols-[auto_1fr]">
-                        <dt class="text-zinc-500 dark:text-white/50">Service</dt>
-                        <dd>{{ $this->getService()?->name }} · {{ $this->getService()?->duration_minutes }} min · £{{ number_format($this->getService()?->price ?? 0, 2) }}</dd>
-                        <dt class="text-zinc-500 dark:text-white/50">Barber</dt>
-                        <dd>{{ $this->getTeamMember()?->name }}</dd>
-                        <dt class="text-zinc-500 dark:text-white/50">Date</dt>
-                        <dd>{{ $selectedDate ? \Carbon\Carbon::parse($selectedDate)->format('l j F Y') : '' }}</dd>
-                        <dt class="text-zinc-500 dark:text-white/50">Time</dt>
-                        <dd>{{ $selectedSlot }}</dd>
-                        <dt class="text-zinc-500 dark:text-white/50">Your name</dt>
-                        <dd>{{ auth()->user()->name }}</dd>
-                        <dt class="text-zinc-500 dark:text-white/50">Your email</dt>
-                        <dd>{{ auth()->user()->email }}</dd>
-                        @if(auth()->user()->phone)
-                            <dt class="text-zinc-500 dark:text-white/50">Your phone</dt>
-                            <dd>{{ auth()->user()->phone }}</dd>
-                        @endif
-                    </dl>
-                </flux:callout>
+                <div class="p-4 rounded-xl border border-gray-300 bg-white mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-3">
+                            <div>
+                                <div class="text-sm text-gray-500 mb-1">Service</div>
+                                <div class="font-semibold">{{ $this->getService()?->name }} - {{ $this->getService()?->duration_minutes }} min</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-500 mb-1">Price</div>
+                                <div class="font-semibold">£{{ number_format($this->getService()?->price ?? 0, 2) }}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-500 mb-1">Barber</div>
+                                <div class="font-semibold">{{ $this->getTeamMember()?->name }}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-500 mb-1">Date</div>
+                                <div class="font-semibold">{{ $selectedDate ? \Carbon\Carbon::parse($selectedDate)->format('l j F Y') : '' }}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-500 mb-1">Time</div>
+                                <div class="font-semibold">{{ $selectedSlot }}</div>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="text-sm text-gray-500 mb-1">Your name</div>
+                                <div class="font-semibold">{{ auth()->user()->name }}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-500 mb-1">Your email</div>
+                                <div class="font-semibold">{{ auth()->user()->email }}</div>
+                            </div>
+                            @if(auth()->user()->phone)
+                                <div>
+                                    <div class="text-sm text-gray-500 mb-1">Your phone</div>
+                                    <div class="font-semibold">{{ auth()->user()->phone }}</div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
 
                 <div class="pt-2">
-                    <flux:button type="button" wire:click="confirmBooking" variant="primary" color="amber" class="w-full">
+                    <button type="submit" wire:click="confirmBooking" class="cursor-pointer w-full block rounded-lg bg-red-500 hover:bg-red-600 text-center py-2 text-white">
                         Confirm booking
-                    </flux:button>
+                    </button>
                 </div>
             </section>
             @break

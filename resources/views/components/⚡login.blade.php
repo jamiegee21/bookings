@@ -21,14 +21,14 @@ new class extends Component
         }
 
         session()->regenerate();
-        $this->redirect(route('home'));
+        $this->redirect(route('dashboard'));
     }
 };
 ?>
 
-<div class="max-w-md mx-auto">
+<div class="w-full max-w-md">
 
-    <flux:heading size="lg" class="mb-6 text-center">Log in to your account</flux:heading>
+    <div class="mb-10 text-center font-bold text-xl">Log in to your account</div>
 
     @if ($errors->any())
         <flux:callout variant="danger" heading="Error" text="Please check your credentials and try again." class="mb-6" />
@@ -58,26 +58,23 @@ new class extends Component
             <flux:error name="password" />
         </flux:field>
 
-        <div class="flex items-center justify-between">
-            <label class="flex items-center">
-                <input type="checkbox" wire:model="remember" class="rounded border-zinc-300 text-rose-600 focus:ring-rose-500">
-                <span class="ml-2 text-sm text-zinc-600 dark:text-zinc-400">Remember me</span>
-            </label>
-        </div>
+
+        <flux:field variant="inline">
+            <flux:checkbox wire:model="remember" />
+            <flux:label>Remember me</flux:label>
+        </flux:field>
 
         <div>
-            <flux:button type="submit" variant="primary" color="rose" class="w-full">
+            <button type="submit" class="cursor-pointer w-full block rounded-lg bg-red-500 hover:bg-red-600 text-center py-2 text-white">
                 Log in
-            </flux:button>
+            </button>
         </div>
 
-        <div class="text-center">
-            <flux:text size="md">
-                Don't have an account?
-                <a href="{{ route('register') }}" class="text-rose-500 hover:text-rose-500 ml-1">
-                    Register here
-                </a>
-            </flux:text>
+        <div class="text-center text-sm">
+            Don't have an account?
+            <a href="{{ route('register') }}" class="text-red-500 hover:text-red-600 ml-1">
+                Register here
+            </a>
         </div>
     </form>
 </div>

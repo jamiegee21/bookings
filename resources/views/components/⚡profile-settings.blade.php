@@ -83,7 +83,7 @@ new class extends Component
                         <input
                             type="text"
                             wire:model="first_name"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                             required
                         />
                         @error('first_name')
@@ -96,7 +96,7 @@ new class extends Component
                         <input
                             type="text"
                             wire:model="last_name"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                             required
                         />
                         @error('last_name')
@@ -110,7 +110,7 @@ new class extends Component
                     <input
                         type="email"
                         wire:model="email"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                         required
                     />
                     @error('email')
@@ -123,7 +123,7 @@ new class extends Component
                     <input
                         type="tel"
                         wire:model="phone"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                     @error('phone')
                         <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
@@ -131,7 +131,7 @@ new class extends Component
                 </div>
 
                 <div class="pt-4">
-                    <button type="submit" class="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-lg">
+                    <button type="submit" class="bg-red-500 hover:bg-red600 text-white px-6 py-2 rounded-lg cursor-pointer">
                         Update Profile
                     </button>
                 </div>
@@ -154,7 +154,7 @@ new class extends Component
                     <input
                         type="password"
                         wire:model="current_password"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                         required
                     />
                     @error('current_password')
@@ -167,7 +167,7 @@ new class extends Component
                     <input
                         type="password"
                         wire:model="password"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                         required
                     />
                     @error('password')
@@ -180,7 +180,7 @@ new class extends Component
                     <input
                         type="password"
                         wire:model="password_confirmation"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 cursor-pointer"
                         required
                     />
                     @error('password_confirmation')
@@ -189,7 +189,7 @@ new class extends Component
                 </div>
 
                 <div class="pt-4">
-                    <button type="submit" class="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-lg">
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg cursor-pointer">
                         Update Password
                     </button>
                 </div>

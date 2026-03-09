@@ -12,25 +12,22 @@ class UserForm
     {
         return $schema
             ->components([
-                TextInput::make('name')
+                TextInput::make('first_name')
                     ->required()
+                    ->maxLength(255),
+                TextInput::make('last_name')
                     ->maxLength(255),
                 TextInput::make('email')
                     ->label('Email address')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                TextInput::make('password')
-                    ->password()
-                    ->required(fn (string $operation): bool => $operation === 'create')
-                    ->nullable()
-                    ->dehydrated(fn (?string $state): bool => filled($state))
-                    ->maxLength(255),
                 Select::make('services')
                     ->relationship(titleAttribute: 'name')
                     ->multiple()
                     ->preload()
-                    ->searchable(),
+                    ->searchable()
+                    ->columnSpanFull(),
             ]);
     }
 }

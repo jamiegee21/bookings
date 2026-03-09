@@ -20,7 +20,8 @@ new class extends Component
 
         if ($booking && $booking->user_id === auth()->id()) {
             $booking->update(['status' => 'cancelled']);
-            $this->dispatch('appointment-cancelled');
+            $this->modal("cancel-appointment-{$id}")->close();
+            $this->dispatch('toast-show', slots: ['text' => 'Your appointment has been cancelled.'], duration: 5000, dataset: []);
         }
     }
 };
@@ -55,33 +56,46 @@ new class extends Component
                                 </div>
                             </div>
 
-{{--                            <div class="flex gap-3">--}}
-{{--                                <flux:button--}}
-{{--                                    wire:click="cancelAppointment('{{ $appointment->id }}')"--}}
-{{--                                    variant="outline"--}}
-{{--                                    size="sm"--}}
-{{--                                    wire:confirm="Are you sure you want to cancel this appointment?"--}}
-{{--                                >--}}
-{{--                                    Cancel Appointment--}}
-{{--                                </flux:button>--}}
-{{--                            </div>--}}
+                            <div class="flex gap-3 mt-3">
+                                <flux:modal.trigger name="cancel-appointment-{{ $appointment->id }}">
+                                    <button class="block rounded-lg border text-sm border-gray-300 hover:border-red-500 text-center py-2 px-4 text-gray-500 cursor-pointer">
+                                        Cancel Appointment
+                                    </button>
+                                </flux:modal.trigger>
+                            </div>
+
+                            <flux:modal name="cancel-appointment-{{ $appointment->id }}">
+                                <div class="space-y-6">
+                                    <div>
+                                        <flux:heading size="lg">Cancel Appointment</flux:heading>
+                                        <flux:text class="mt-2">Are you sure you want to cancel this appointment? This action cannot be undone.</flux:text>
+                                    </div>
+                                    <div class="flex gap-3 justify-end">
+                                        <flux:modal.close>
+                                            <flux:button variant="ghost">No, keep it</flux:button>
+                                        </flux:modal.close>
+                                        <flux:button variant="danger" wire:click="cancelAppointment('{{ $appointment->id }}')">Yes, cancel it</flux:button>
+                                    </div>
+                                </div>
+                            </flux:modal>
+
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
     @else
-        <div class="text-center py-12">
+        <div class="flex flex-col items-center gap-2 p-10 rounded-xl border border-gray-300 bg-white">
             <div class="mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 mx-auto text-zinc-400">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                <svg class="w-8 h-8" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"></path>
                 </svg>
             </div>
-            <flux:heading size="md" class="mb-2">No upcoming appointments</flux:heading>
-            <flux:text variant="subtle" class="mb-6">You don't have any appointments scheduled. Book one now!</flux:text>
-            <flux:button href="{{ route('book') }}" variant="primary" color="rose">
+            <div class="text-xl font-bold mb-1">No upcoming appointments</div>
+            <div class="text-gray-600 text-sm mb-6">You don't have any appointments scheduled.</div>
+            <a href="{{ route('book') }}" class="cursor-pointer w-full block rounded-lg bg-red-500 hover:bg-red-600 text-center py-2 text-white">
                 Make a Booking
-            </flux:button>
+            </a>
         </div>
     @endif
 </div>

@@ -56,6 +56,7 @@ class SlotGenerator
 
         $bookedRanges = $user->teamMemberBookings()
             ->whereDate('starts_at', $date)
+            ->where('status', 'confirmed')
             ->get(['starts_at', 'ends_at']);
 
         return $slots->filter(function (Carbon $slot) use ($bookedRanges) {
