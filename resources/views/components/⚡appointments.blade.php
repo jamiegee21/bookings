@@ -20,7 +20,6 @@ new class extends Component
 
         if ($booking && $booking->user_id === auth()->id()) {
             $booking->update(['status' => 'cancelled']);
-            $this->modal("cancel-appointment-{$id}")->close();
             $this->dispatch('toast-show', slots: ['text' => 'Your appointment has been cancelled.'], duration: 5000, dataset: []);
         }
     }
@@ -74,7 +73,9 @@ new class extends Component
                                         <flux:modal.close>
                                             <flux:button variant="ghost">No, keep it</flux:button>
                                         </flux:modal.close>
-                                        <flux:button variant="danger" wire:click="cancelAppointment('{{ $appointment->id }}')">Yes, cancel it</flux:button>
+                                        <flux:modal.close>
+                                            <flux:button variant="danger" wire:click="cancelAppointment('{{ $appointment->id }}')">Yes, cancel it</flux:button>
+                                        </flux:modal.close>
                                     </div>
                                 </div>
                             </flux:modal>
