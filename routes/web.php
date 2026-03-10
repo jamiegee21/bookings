@@ -8,7 +8,7 @@ Route::middleware('auth')->group(function () {
             ->where('status', 'confirmed')
             ->where('starts_at', '>=', now())
             ->count();
-        
+
         return view('dashboard', ['confirmedBookingsCount' => $confirmedBookingsCount]);
     })->name('dashboard');
 
@@ -37,11 +37,11 @@ Route::middleware('auth')->group(function () {
             ->where('status', 'confirmed')
             ->where('starts_at', '>=', now())
             ->count();
-        
+
         if ($confirmedBookingsCount >= 3) {
             return redirect()->route('dashboard')->with('error', 'You have reached the maximum of 3 active bookings.');
         }
-        
+
         return view('book');
     })->name('book');
 });
@@ -60,11 +60,20 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', function () {
         return view('auth.register');
     })->name('register');
+
+    Route::get('/forgot-password', function () {
+        return view('auth.forgot-password');
+    })->name('password.request');
+
+    Route::get('/reset-password/{token}', function (string $token) {
+        return view('auth.reset-password', ['token' => $token]);
+    })->name('password.reset');
 });
 
 Route::get('/logout', function () {
     auth()->logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
+
     return redirect()->route('login');
 })->middleware('auth')->name('logout');

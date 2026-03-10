@@ -30,6 +30,10 @@ new class extends Component
 
     <div class="mb-10 text-center font-bold text-xl">Log in to your account</div>
 
+    @if (request()->query('reset'))
+        <flux:callout variant="success" heading="Password reset" text="Your password has been reset. You can now log in." class="mb-6" />
+    @endif
+
     @if ($errors->any())
         <flux:callout variant="danger" heading="Error" text="Please check your credentials and try again." class="mb-6" />
     @endif
@@ -48,7 +52,10 @@ new class extends Component
         </flux:field>
 
         <flux:field>
-            <flux:label>Password</flux:label>
+            <div class="flex justify-between items-center mb-2">
+                <flux:label>Password</flux:label>
+                <a href="{{ route('password.request') }}" class="text-xs text-red-500 hover:text-red-600">Forgot password?</a>
+            </div>
             <flux:input
                 type="password"
                 wire:model="password"
@@ -57,7 +64,6 @@ new class extends Component
             />
             <flux:error name="password" />
         </flux:field>
-
 
         <flux:field variant="inline">
             <flux:checkbox wire:model="remember" />
