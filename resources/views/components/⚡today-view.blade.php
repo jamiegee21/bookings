@@ -249,9 +249,10 @@ new class extends Component {
 
     </div>
 
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Schedule for {{ \Carbon\Carbon::parse($selectedDate)->format('D, F j, Y') }}</h2>
+
         @if($teamMemberId && $hasSchedule)
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Schedule
-                for {{ \Carbon\Carbon::parse($selectedDate)->format('D, F j, Y') }}</h2>
+
 
             <div class="grid grid-cols-1 gap-6">
                 @foreach($timeSlots as $slot)
