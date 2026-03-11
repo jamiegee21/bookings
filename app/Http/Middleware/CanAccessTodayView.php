@@ -21,7 +21,8 @@ class CanAccessTodayView
 
         $authorizedEmails = [
             'lee@fitchysbarberlounge.co.uk',
-            'me@jamiegee.co.uk'
+            'me@jamiegee.co.uk',
+            'leeb8388@yahoo.com'
         ];
 
         if (!in_array(auth()->user()->email, $authorizedEmails)) {
