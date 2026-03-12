@@ -26,7 +26,7 @@ new class extends Component
     <div class="mb-4 text-center font-bold text-xl">Forgot your password?</div>
 
     @if ($sent)
-        <flux:callout variant="success" heading="Email sent" text="If an account exists for that email address, we've sent a password reset link." class="mb-6" />
+        <flux:callout variant="success" heading="Email sent" text="If an account exists for that email address, we've sent a password reset link (Please check junk/spam boxes too)." class="mb-6" />
 
         <div class="text-center text-sm">
             <a href="{{ route('login') }}" class="text-red-500 hover:text-red-600">Back to login</a>
