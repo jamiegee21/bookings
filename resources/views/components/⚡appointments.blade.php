@@ -9,6 +9,7 @@ new class extends Component
     {
         return Booking::where('user_id', auth()->id())
             ->where('status', 'confirmed')
+            ->whereNotNull('service_id')
             ->where('starts_at', '>=', now())
             ->orderBy('starts_at')
             ->get();
