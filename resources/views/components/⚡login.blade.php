@@ -52,10 +52,7 @@ new class extends Component
         </flux:field>
 
         <flux:field>
-            <div class="flex justify-between items-center mb-2">
-                <flux:label>Password</flux:label>
-                <a href="{{ route('password.request') }}" class="text-xs text-red-500 hover:text-red-600">Forgot password?</a>
-            </div>
+            <flux:label>Password</flux:label>
             <flux:input
                 type="password"
                 wire:model="password"
@@ -65,10 +62,13 @@ new class extends Component
             <flux:error name="password" />
         </flux:field>
 
-        <flux:field variant="inline">
-            <flux:checkbox wire:model="remember" />
-            <flux:label>Remember me</flux:label>
-        </flux:field>
+        <div class="flex justify-between items-center">
+            <flux:field variant="inline">
+                <flux:checkbox wire:model="remember" />
+                <flux:label>Remember me</flux:label>
+            </flux:field>
+            <a href="{{ route('password.request') }}" class="text-sm text-red-500 hover:text-red-600">Forgot password?</a>
+        </div>
 
         <div>
             <button type="submit" class="cursor-pointer w-full block rounded-lg bg-red-500 hover:bg-red-600 text-center py-2 text-white">
@@ -79,7 +79,7 @@ new class extends Component
         <div class="text-center text-sm">
             Don't have an account?
             <a href="{{ route('register') }}" class="text-red-500 hover:text-red-600 ml-1">
-                Register here
+                Create one now
             </a>
         </div>
     </form>
